@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>3D Model AR Gallery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+<!-- Model Viewer from online -->
+ 
+	<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script> 
+
+	<!-- Model viewer loading from site commented -->
+	
+<!--
+	<script type="module" src="libs/model-viewer.min.js"></script>
+	-->
+	
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+      overflow: hidden;
+      text-align: center;
+      padding: 10px;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card model-viewer {
+      width: 100%;
+      height: 150px;
+    }
+
+    .viewer-container {
+      display: none;
+      margin-top: 30px;
+    }
+
+    model-viewer#mainViewer {
+      width: 100%;
+      max-width: 600px;
+      height: 500px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      margin: 0 auto;
+    }
+
+    button[slot="ar-button"] {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-size: 16px;
+      cursor: pointer;
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Choose a 3D Model to View in AR</h1>
+
+  <div class="gallery">
+    <!-- You can copy/paste and change filenames as needed -->
+    <div class="card" onclick="loadModel('Model 1', 'raw.githubusercontent.com/cloudconnecthub/ar/refs/heads/main/30_4_2025_1.glb', 'raw.githubusercontent.com/cloudconnecthub/ar/refs/heads/main/30_4_2025_1.usdz')">
+      <model-viewer src="raw.githubusercontent.com/cloudconnecthub/ar/refs/heads/main/30_4_2025_1.glb" camera-controls auto-rotate disable-zoom></model-viewer>
+      <p>Model 1</p>
+    </div>
+    <div class="card" onclick="loadModel('Model 2', '/Media/Products/bubbles/viewer/models/bubbles/30_4_2025_2.glb', '/Media/Products/bubbles/viewer/models/bubbles/30_4_2025_2.usdz')">
+      <model-viewer src="/Media/Products/bubbles/viewer/models/bubbles/30_4_2025_2.glb" camera-controls auto-rotate disable-zoom></model-viewer>
+      <p>Model 2</p>
+    </div>
+    <div class="card" onclick="loadModel('Model 3', '/Media/Products/bubbles/viewer/models/bubbles/30_4_2025_3.glb', '/Media/Products/bubbles/viewer/models/bubbles/30_4_2025_3.usdz')">
+      <model-viewer src="/Media/Products/bubbles/viewer/models/bubbles/30_4_2025_3.glb" camera-controls auto-rotate disable-zoom></model-viewer>
+      <p>Model 3</p>
+    </div>
+    <!-- Add up to 10 or more cards as needed -->
+  </div>
+
+  <div class="viewer-container" id="viewerContainer">
+    <h2 id="modelTitle"></h2>
+    <model-viewer 
+      id="mainViewer"
+      src=""
+      ios-src=""
+      alt="3D model"
+      ar 
+      ar-modes="scene-viewer quick-look webxr"
+      camera-controls 
+      auto-rotate 
+      autoplay
+      shadow-intensity="1">
+      <button slot="ar-button">View in your space</button>
+    </model-viewer>
+  </div>
+
+  <script>
+    function loadModel(name, glbUrl, usdzUrl) {
+      document.getElementById('modelTitle').textContent = name;
+      const viewer = document.getElementById('mainViewer');
+      viewer.setAttribute('src', glbUrl);
+      viewer.setAttribute('ios-src', usdzUrl);
+      document.getElementById('viewerContainer').style.display = 'block';
+      window.scrollTo({ top: document.getElementById('viewerContainer').offsetTop, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
+
+
